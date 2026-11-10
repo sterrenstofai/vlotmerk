@@ -401,3 +401,42 @@
   .lp, .lp * { transition-duration: 0.01ms !important; animation: none !important; }
   .lp[data-js] .w > span, .lp[data-js] [data-rv]:not(h1) { transform: none; opacity: 1; }
 }
+
+/* ---------- Vlotmerk: drie stappen, prijsvergelijking en proces ---------- */
+.cards.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cards.three .card-art { aspect-ratio: 4 / 3; padding: 12% 30%; position: relative; }
+.cards.three p { max-width: 34ch; }
+.cards.three h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5em; }
+.cards.three .pill { font-size: var(--t-s); padding: 0.2em 0.6em; }
+.step-n { position: absolute; left: 0.5em; top: 0.3em; font-size: var(--t-xl); }
+
+.compare { display: grid; gap: clamp(14px, 1.6vw, 26px); width: 100%; }
+.compare-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 6px 16px; }
+.compare-name { grid-column: 1; grid-row: 1; font-size: var(--t-b); }
+.compare-price { grid-column: 2; grid-row: 1 / span 2; font-size: var(--t-ml); white-space: nowrap; align-self: end; color: var(--muted); }
+.compare-bar { grid-column: 1; grid-row: 2; display: block; height: clamp(14px, 1.6vw, 26px); width: calc(var(--w) * 100%); border-radius: var(--rb); background: var(--faint); }
+.compare-row.us .compare-bar { background: var(--accent); }
+.compare-row.us .compare-price { color: var(--fg); }
+
+.price-card li.sum { display: flex; justify-content: space-between; gap: 16px; }
+.price-card li.sum span:last-child { white-space: nowrap; }
+.price-card li.muted { color: var(--muted); }
+#prijs .note { max-width: 62ch; }
+
+.flow { display: grid; border-bottom: 1px solid var(--line); }
+.flow li { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 7fr) minmax(0, 3fr); column-gap: var(--g); align-items: baseline; padding: clamp(14px, 1.5vw, 26px) 0; border-top: 1px solid var(--line); }
+.flow-when { font: 400 var(--t-label) / 1.3 var(--mono); color: var(--muted); }
+.flow-what { display: grid; gap: 0.3em; }
+.flow-what b { font-size: var(--t-m); font-weight: 400; line-height: 1.15; }
+.flow-what span { font-size: var(--t-s); color: var(--muted); max-width: 52ch; }
+.flow-price { font-size: var(--t-m); line-height: 1.15; text-align: right; color: var(--muted); }
+.flow li[data-ours] .flow-price { color: var(--fg); }
+.flow-note { margin-top: clamp(16px, 1.6vw, 26px); }
+
+@media (max-width: 900px) {
+  .cards.three { grid-template-columns: 1fr; }
+  .cards.three .card-art { aspect-ratio: 16 / 9; padding: 6% 36%; }
+  .compare-price { font-size: var(--t-m); }
+  .flow li { grid-template-columns: minmax(0, 1fr) auto; row-gap: 4px; }
+  .flow-when { grid-column: 1 / -1; }
+}

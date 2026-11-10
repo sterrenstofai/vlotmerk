@@ -5,9 +5,9 @@ import type { Kosten } from "@/lib/schema/pipeline";
  * BOIP wijzigt zijn tarieven periodiek: controleer ze op boip.int en pas dan ook de datum aan.
  */
 export const BOIP_TARIEVEN = {
-  /** Datum waarop deze bedragen zijn overgenomen uit de bouwbrief. Nog niet nagekeken op boip.int. */
+  /** Datum waarop deze bedragen zijn nagekeken op boip.int/nl/ondernemers/merken/tarieven. */
   datum: "2026-11-10",
-  gecontroleerdOpBoip: false,
+  gecontroleerdOpBoip: true,
   depotMetEersteKlasse: 244,
   tweedeKlasse: 27,
   derdeKlasseEnVerder: 81,
