@@ -43,3 +43,6 @@ next-env.d.ts
 
 # lokale opslag van de editor
 /.data/
+
+# lokale Netlify-map
+/.netlify/
