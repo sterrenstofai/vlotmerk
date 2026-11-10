@@ -40,7 +40,7 @@ export const checkStatusSchema = z.enum([
   "mislukt",
 ]);
 
-/** De drie blokken van de gratis check. */
+/** De drie blokken van de eerste check. De naam stamt uit de tijd dat die gratis was. */
 export const gratisResultaatSchema = z.object({
   onderscheidend: onderscheidendVermogenSchema,
   register: z.object({

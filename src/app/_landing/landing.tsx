@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, type CSSProperties, type ReactNode } from "react";
-import { BOIP_TARIEVEN, PRIJZEN, berekenKosten, euro } from "@/lib/config/tarieven";
+import { BOIP_TARIEVEN, PRIJZEN, euro, totaalMetCheck } from "@/lib/config/tarieven";
 import { VERGELIJKING } from "@/lib/config/vergelijking";
 import { BRANDS, luminance, readableOn } from "./brands";
 import { FONTS } from "./fonts";
@@ -14,8 +14,8 @@ import "lenis/dist/lenis.css";
 import "./landing.css";
 
 const EXAMPLE = "/check/voorbeeld";
-const EEN_KLASSE = berekenKosten(1);
-const PRICE_LINE = `Check gratis. Rapport ${euro(PRIJZEN.rapport)}. Depot ${euro(PRIJZEN.depot)} + BOIP-tarief.`;
+const TOTAAL = totaalMetCheck(1);
+const PRICE_LINE = `Check ${euro(PRIJZEN.check)}. Rapport ${euro(PRIJZEN.rapport)}. Depot ${euro(PRIJZEN.depot)} + BOIP-tarief.`;
 const PEILDATUM = new Date(VERGELIJKING.peildatum).toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" });
 
 const SOURCES = ["Benelux (BOIP)", "EU (EUIPO)", "Domeinnamen", "KvK"];
@@ -23,7 +23,7 @@ const SOURCES = ["Benelux (BOIP)", "EU (EUIPO)", "Domeinnamen", "KvK"];
 const STEPS: { title: string; price: string; text: string; icon: SpriteKey }[] = [
   {
     title: "Check je naam",
-    price: "Gratis",
+    price: euro(PRIJZEN.check),
     text: "Vul je naam in en vertel wat je doet. Je ziet direct of de naam sterk genoeg is en of er een bijna gelijk merk bestaat.",
     icon: "loupe",
   },
@@ -42,7 +42,7 @@ const STEPS: { title: string; price: string; text: string; icon: SpriteKey }[] =
 ];
 
 const FLOW: { when: string; title: string; text: string; price: string; ours: boolean }[] = [
-  { when: "Stap 1", title: "Check", text: "Onderscheidend vermogen, bijna gelijke merken en je domeinnaam.", price: "Gratis", ours: true },
+  { when: "Stap 1", title: "Check", text: "Onderscheidend vermogen, bijna gelijke merken en je domeinnaam.", price: euro(PRIJZEN.check), ours: true },
   { when: "Stap 2", title: "Rapport", text: "Volledige conflictscan, klassenadvies en kostenberekening, ook als PDF.", price: euro(PRIJZEN.rapport), ours: true },
   { when: "Stap 3", title: "Depotdossier", text: "Alle velden van het BOIP-formulier ingevuld, met stappenplan. Het rapport zit erbij.", price: euro(PRIJZEN.depot), ours: true },
   { when: "Indienen", title: "BOIP-tarief", text: "Je dient zelf in via MyBOIP en betaalt BOIP rechtstreeks. Eén klasse zit in het tarief.", price: euro(BOIP_TARIEVEN.depotMetEersteKlasse), ours: false },
@@ -251,7 +251,7 @@ export default function Landing() {
             <Words>Je merk veilig en snel vastgelegd.</Words>
           </h1>
           <p className="hero-sub" data-rv>
-            In drie stappen, vanaf {euro(EEN_KLASSE.totaal)} alles bij elkaar. Honderden euro’s goedkoper dan een merkenbureau.
+            In drie stappen, vanaf {euro(TOTAAL)} alles bij elkaar. Honderden euro’s goedkoper dan een merkenbureau.
           </p>
           <div className="hero-cta" data-rv>
             {cta("Bekijk een voorbeeldcheck")}
@@ -313,8 +313,8 @@ export default function Landing() {
             <div className="compare" data-rv role="group" aria-label="Prijsvergelijking voor een Benelux-merk in één klasse">
               <div className="compare-row us">
                 <span className="compare-name">{PRODUCT.naam}</span>
-                <span className="compare-bar" style={{ "--w": EEN_KLASSE.totaal / VERGELIJKING.merkenbureaus.hoog } as CSSProperties} />
-                <span className="compare-price disp">{euro(EEN_KLASSE.totaal)}</span>
+                <span className="compare-bar" style={{ "--w": TOTAAL / VERGELIJKING.merkenbureaus.hoog } as CSSProperties} />
+                <span className="compare-price disp">{euro(TOTAAL)}</span>
               </div>
               <div className="compare-row">
                 <span className="compare-name">Merkenbureau</span>
@@ -332,13 +332,13 @@ export default function Landing() {
           <div className="col h">
             <div className="price-card" data-rv>
               <div>
-                <p className="price disp">{euro(EEN_KLASSE.totaal)}</p>
+                <p className="price disp">{euro(TOTAAL)}</p>
                 <p className="per">alles bij elkaar, voor één klasse, excl. btw</p>
               </div>
               <ul>
                 <li className="sum">
                   <span>Check</span>
-                  <span>Gratis</span>
+                  <span>{euro(PRIJZEN.check)}</span>
                 </li>
                 <li className="sum">
                   <span>Depotdossier, rapport inbegrepen</span>

@@ -10,7 +10,7 @@ export const metadata: Metadata = { title: "Mijn checks", robots: { index: false
 const STATUS: Record<string, string> = {
   nieuw: "Nieuw",
   gratis_bezig: "Bezig",
-  gratis_klaar: "Gratis check",
+  gratis_klaar: "Check",
   rapport_bezig: "Rapport wordt gemaakt",
   rapport_klaar: "Rapport",
   mislukt: "Mislukt",

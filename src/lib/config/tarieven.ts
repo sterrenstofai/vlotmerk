@@ -16,6 +16,8 @@ export const BOIP_TARIEVEN = {
 
 /** Onze eigen prijzen, exclusief btw. */
 export const PRIJZEN = {
+  /** De eerste check. Bewust niet gratis: een kleine prijs zet een serieuzere toon. */
+  check: 2.99,
   rapport: 19,
   depot: 79,
   bewakingPerMaand: 4,
@@ -31,6 +33,11 @@ export function boipKosten(aantalKlassen: number): number {
   let totaal = BOIP_TARIEVEN.depotMetEersteKlasse;
   for (let i = 2; i <= aantalKlassen; i++) totaal += meerkostenKlasse(i);
   return totaal;
+}
+
+/** Alles bij elkaar voor een klant die de check doet en daarna deponeert. */
+export function totaalMetCheck(aantalKlassen: number): number {
+  return PRIJZEN.check + berekenKosten(aantalKlassen).totaal;
 }
 
 /** Kosten van een depot via ons: BOIP-tarief plus onze dienst. */

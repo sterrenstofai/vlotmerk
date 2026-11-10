@@ -87,7 +87,7 @@ export const variantSchema = z.object({
 });
 
 export const MAX_VARIANTEN = 25;
-/** De gratis check zoekt alleen op de exacte en bijna-exacte varianten. */
+/** De eerste check zoekt alleen op de exacte en bijna-exacte varianten. */
 export const MAX_GRATIS_ZOEKOPDRACHTEN = 3;
 
 export const variantenSchema = z.array(variantSchema).min(1).max(MAX_VARIANTEN);
