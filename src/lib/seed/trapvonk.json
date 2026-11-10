@@ -9,12 +9,44 @@
   "rapport": {
     "absoluteGronden": {
       "gronden": [
-        { "grond": "beschrijvend", "score": 15, "talen": ["nl"], "toelichting": "\"Trap\" verwijst losjes naar fietsen, maar de combinatie met \"vonk\" beschrijft geen product of dienst." },
-        { "grond": "gangbaar", "score": 5, "talen": [], "toelichting": "Geen gangbare term in de fietsbranche." },
-        { "grond": "lovend", "score": 5, "talen": [], "toelichting": "Geen aanprijzing." },
-        { "grond": "geografisch", "score": 0, "talen": [], "toelichting": "Geen plaats of streek." },
-        { "grond": "misleidend", "score": 0, "talen": [], "toelichting": "Wekt geen verkeerde verwachting over de producten." },
-        { "grond": "openbare_orde", "score": 0, "talen": [], "toelichting": "Geen bezwaar, ook niet in het Frans, Engels of Duits." }
+        {
+          "grond": "beschrijvend",
+          "score": 15,
+          "talen": [
+            "nl"
+          ],
+          "toelichting": "\"Trap\" verwijst losjes naar fietsen, maar de combinatie met \"vonk\" beschrijft geen product of dienst."
+        },
+        {
+          "grond": "gangbaar",
+          "score": 5,
+          "talen": [],
+          "toelichting": "Geen gangbare term in de fietsbranche."
+        },
+        {
+          "grond": "lovend",
+          "score": 5,
+          "talen": [],
+          "toelichting": "Geen aanprijzing."
+        },
+        {
+          "grond": "geografisch",
+          "score": 0,
+          "talen": [],
+          "toelichting": "Geen plaats of streek."
+        },
+        {
+          "grond": "misleidend",
+          "score": 0,
+          "talen": [],
+          "toelichting": "Wekt geen verkeerde verwachting over de producten."
+        },
+        {
+          "grond": "openbare_orde",
+          "score": 0,
+          "talen": [],
+          "toelichting": "Geen bezwaar, ook niet in het Frans, Engels of Duits."
+        }
       ],
       "oordeel": "sterk",
       "uitleg": "Trapvonk is een verzonnen samenstelling die niet beschrijft wat je verkoopt. Dat maakt de naam onderscheidend genoeg voor een woordmerk."
@@ -23,14 +55,26 @@
       "klassen": [
         {
           "klasse": 35,
-          "termen": [{ "term": "Detailhandelsdiensten met betrekking tot fietsen", "gevalideerd": false, "bron": null }],
+          "termen": [
+            {
+              "term": "Detailhandelsdiensten met betrekking tot fietsen",
+              "gevalideerd": false,
+              "bron": null
+            }
+          ],
           "waarom": "Je verkoopt fietsen van andere merken. Dat is detailhandel, klasse 35.",
           "meerkosten": 0,
           "kern": true
         },
         {
           "klasse": 37,
-          "termen": [{ "term": "Reparatie en onderhoud van fietsen", "gevalideerd": false, "bron": null }],
+          "termen": [
+            {
+              "term": "Reparatie en onderhoud van fietsen",
+              "gevalideerd": false,
+              "bron": null
+            }
+          ],
           "waarom": "Je werkplaats repareert fietsen. Reparatie valt in klasse 37.",
           "meerkosten": 27,
           "kern": true
@@ -39,16 +83,67 @@
       "toelichting": "Klasse 12 (fietsen als product) raden we niet aan: je maakt ze niet zelf. Smal is goedkoper en botst minder snel."
     },
     "varianten": [
-      { "term": "Trapvonk", "soort": "exact" },
-      { "term": "Trap vonk", "soort": "aaneen" },
-      { "term": "Trapvonken", "soort": "meervoud" },
-      { "term": "Trapvonck", "soort": "spelling" },
-      { "term": "Trapfonk", "soort": "fonetisch" },
-      { "term": "Vonk", "soort": "dominant_woord" }
+      {
+        "term": "Trapvonk",
+        "soort": "exact"
+      },
+      {
+        "term": "Trap vonk",
+        "soort": "aaneen"
+      },
+      {
+        "term": "Trap-vonk",
+        "soort": "aaneen"
+      },
+      {
+        "term": "Trapvonken",
+        "soort": "meervoud"
+      },
+      {
+        "term": "Trapvonck",
+        "soort": "spelling"
+      },
+      {
+        "term": "Trapfonk",
+        "soort": "fonetisch"
+      },
+      {
+        "term": "Trabvonk",
+        "soort": "fonetisch"
+      },
+      {
+        "term": "Trapvonq",
+        "soort": "fonetisch"
+      },
+      {
+        "term": "Pedal spark",
+        "soort": "vertaling",
+        "taal": "en"
+      },
+      {
+        "term": "Étincelle",
+        "soort": "vertaling",
+        "taal": "fr"
+      },
+      {
+        "term": "Tretfunke",
+        "soort": "vertaling",
+        "taal": "de"
+      },
+      {
+        "term": "Vonk",
+        "soort": "dominant_woord"
+      }
     ],
     "bronnen": [
-      { "bron": "boip", "ok": true },
-      { "bron": "euipo", "ok": true }
+      {
+        "bron": "boip",
+        "ok": true
+      },
+      {
+        "bron": "euipo",
+        "ok": true
+      }
     ],
     "hits": [
       {
@@ -56,11 +151,22 @@
         "merk": "TRAPVONCK",
         "houder": "Voorbeeldhouder Dansstudio B.V.",
         "nummer": "VOORBEELD-0001",
-        "klassen": [41],
+        "klassen": [
+          41
+        ],
         "status": "ingeschreven",
         "registerUrl": null,
         "gevondenMet": "Trapvonck",
-        "scores": { "bewerkingsafstand": 1, "fonetisch": 1, "klassenOverlap": [], "visueel": 0.9, "auditief": 1, "begripsmatig": 0.8, "soortgelijkheid": 0.05, "bekendMerk": false },
+        "scores": {
+          "bewerkingsafstand": 1,
+          "fonetisch": 1,
+          "klassenOverlap": [],
+          "visueel": 0.9,
+          "auditief": 1,
+          "begripsmatig": 0.8,
+          "soortgelijkheid": 0.05,
+          "bekendMerk": false
+        },
         "risico": "middel",
         "uitleg": "Klinkt hetzelfde, maar is ingeschreven voor danslessen. Dat is iets heel anders dan fietsen."
       },
@@ -69,11 +175,22 @@
         "merk": "VONK",
         "houder": "Voorbeeldhouder Kleding GmbH",
         "nummer": "VOORBEELD-0002",
-        "klassen": [25],
+        "klassen": [
+          25
+        ],
         "status": "ingeschreven",
         "registerUrl": null,
         "gevondenMet": "Vonk",
-        "scores": { "bewerkingsafstand": 4, "fonetisch": 0.5, "klassenOverlap": [], "visueel": 0.4, "auditief": 0.5, "begripsmatig": 0.5, "soortgelijkheid": 0.05, "bekendMerk": false },
+        "scores": {
+          "bewerkingsafstand": 4,
+          "fonetisch": 0.5,
+          "klassenOverlap": [],
+          "visueel": 0.4,
+          "auditief": 0.5,
+          "begripsmatig": 0.5,
+          "soortgelijkheid": 0.05,
+          "bekendMerk": false
+        },
         "risico": "laag",
         "uitleg": "Deelt alleen het woord \"vonk\" en is ingeschreven voor kleding."
       },
@@ -82,20 +199,118 @@
         "merk": "TRAP & VONK",
         "houder": "Voorbeeldhouder Tweewielers V.O.F.",
         "nummer": "VOORBEELD-0003",
-        "klassen": [12, 37],
+        "klassen": [
+          12,
+          37
+        ],
         "status": "vervallen",
         "registerUrl": null,
         "gevondenMet": "Trap vonk",
-        "scores": { "bewerkingsafstand": 3, "fonetisch": 0.9, "klassenOverlap": [37], "visueel": 0.8, "auditief": 0.9, "begripsmatig": 0.9, "soortgelijkheid": 0.9, "bekendMerk": false },
+        "scores": {
+          "bewerkingsafstand": 3,
+          "fonetisch": 0.9,
+          "klassenOverlap": [
+            37
+          ],
+          "visueel": 0.8,
+          "auditief": 0.9,
+          "begripsmatig": 0.9,
+          "soortgelijkheid": 0.9,
+          "bekendMerk": false
+        },
         "risico": "laag",
         "uitleg": "Leek sterk op jouw naam en zat in dezelfde klasse, maar is niet meer actief."
+      },
+      {
+        "bron": "euipo",
+        "merk": "VONKX",
+        "houder": "Voorbeeldhouder Lighting S.r.l.",
+        "nummer": "VOORBEELD-0004",
+        "klassen": [
+          11
+        ],
+        "status": "ingeschreven",
+        "registerUrl": null,
+        "gevondenMet": "Vonk",
+        "scores": {
+          "bewerkingsafstand": 5,
+          "fonetisch": 0.45,
+          "klassenOverlap": [],
+          "visueel": 0.35,
+          "auditief": 0.45,
+          "begripsmatig": 0.4,
+          "soortgelijkheid": 0.05,
+          "bekendMerk": false
+        },
+        "risico": "laag",
+        "uitleg": "Lijkt alleen op het tweede deel van je naam en is ingeschreven voor verlichting."
+      },
+      {
+        "bron": "boip",
+        "merk": "TRAPPER",
+        "houder": "Voorbeeldhouder Schoenen B.V.",
+        "nummer": "VOORBEELD-0005",
+        "klassen": [
+          25,
+          35
+        ],
+        "status": "ingeschreven",
+        "registerUrl": null,
+        "gevondenMet": "Trapvonk",
+        "scores": {
+          "bewerkingsafstand": 4,
+          "fonetisch": 0.5,
+          "klassenOverlap": [
+            35
+          ],
+          "visueel": 0.5,
+          "auditief": 0.5,
+          "begripsmatig": 0.3,
+          "soortgelijkheid": 0.2,
+          "bekendMerk": false
+        },
+        "risico": "laag",
+        "uitleg": "Deelt de klasse voor detailhandel, maar verkoopt schoenen en de namen lijken weinig op elkaar."
+      },
+      {
+        "bron": "euipo",
+        "merk": "SPARKPEDAL",
+        "houder": "Voorbeeldhouder Cycling Ltd.",
+        "nummer": "VOORBEELD-0006",
+        "klassen": [
+          12
+        ],
+        "status": "aangevraagd",
+        "registerUrl": null,
+        "gevondenMet": "Pedal spark",
+        "scores": {
+          "bewerkingsafstand": 9,
+          "fonetisch": 0.1,
+          "klassenOverlap": [],
+          "visueel": 0.1,
+          "auditief": 0.1,
+          "begripsmatig": 0.7,
+          "soortgelijkheid": 0.6,
+          "bekendMerk": false
+        },
+        "risico": "laag",
+        "uitleg": "Betekent ongeveer hetzelfde in het Engels en gaat over fietsonderdelen, maar ziet er anders uit en klinkt anders."
       }
     ],
     "aanvullend": {
       "domeinen": [
-        { "domein": "trapvonk.nl", "status": "vrij" },
-        { "domein": "trapvonk.com", "status": "vrij" },
-        { "domein": "trapvonk.eu", "status": "bezet" }
+        {
+          "domein": "trapvonk.nl",
+          "status": "vrij"
+        },
+        {
+          "domein": "trapvonk.com",
+          "status": "vrij"
+        },
+        {
+          "domein": "trapvonk.eu",
+          "status": "bezet"
+        }
       ],
       "handelsnamen": []
     },
@@ -107,7 +322,13 @@
         "Trapvonk.eu is bezet. Leg de .nl en de .com vast voordat je deponeert."
       ],
       "volgendeStap": "Deponeer in klasse 35 en 37.",
-      "kosten": { "tariefdatum": "2026-11-10", "aantalKlassen": 2, "boip": 271, "onzeDienst": 79, "totaal": 350 }
+      "kosten": {
+        "tariefdatum": "2026-11-10",
+        "aantalKlassen": 2,
+        "boip": 271,
+        "onzeDienst": 79,
+        "totaal": 350
+      }
     },
     "pdfPad": null
   }
