@@ -14,12 +14,24 @@ export function domeinLabel(naam: string): string {
 }
 
 /**
- * Vraagt via RDAP of een domeinnaam geregistreerd is. 404 betekent vrij, 200 betekent bezet.
- * Elk ander antwoord, of geen antwoord, is "onbekend": we zeggen nooit "vrij" zonder dat het register dat zegt.
+ * De RDAP-servers van de registers zelf, uit de lijst van IANA (data.iana.org/rdap/dns.json).
+ * .eu staat daar niet in: EURid biedt geen RDAP aan, dus .eu kunnen we niet betrouwbaar controleren.
+ */
+const RDAP: Record<string, string> = {
+  nl: "https://rdap.sidn.nl/domain/",
+  com: "https://rdap.verisign.com/com/v1/domain/",
+};
+
+/**
+ * Vraagt het register of een domeinnaam geregistreerd is. 404 betekent vrij, 200 betekent bezet.
+ * Elk ander antwoord, geen antwoord of een extensie zonder server is "onbekend": we zeggen nooit "vrij"
+ * zonder dat het register dat zegt.
  */
 export async function domeinStatus(domein: string, haal: typeof fetch = fetch): Promise<Status> {
+  const server = RDAP[domein.split(".").pop() ?? ""];
+  if (!server) return "onbekend";
   try {
-    const res = await haal(`https://rdap.org/domain/${domein}`, { redirect: "follow", signal: AbortSignal.timeout(8000) });
+    const res = await haal(`${server}${domein}`, { headers: { Accept: "application/rdap+json" }, signal: AbortSignal.timeout(8000) });
     if (res.status === 404) return "vrij";
     return res.ok ? "bezet" : "onbekend";
   } catch {
@@ -28,7 +40,7 @@ export async function domeinStatus(domein: string, haal: typeof fetch = fetch): 
 }
 
 /** Stap 6 van de pipeline: domeinnamen. De controle op handelsnamen (KvK) is nog niet gekoppeld en blijft null. */
-export async function aanvullendeChecks(naam: string, extensies = ["nl", "com", "eu"], haal: typeof fetch = fetch): Promise<Aanvullend> {
+export async function aanvullendeChecks(naam: string, extensies = ["nl", "com"], haal: typeof fetch = fetch): Promise<Aanvullend> {
   const label = domeinLabel(naam);
   const domeinen = label
     ? await Promise.all(extensies.map(async (ext) => ({ domein: `${label}.${ext}`, status: await domeinStatus(`${label}.${ext}`, haal) })))

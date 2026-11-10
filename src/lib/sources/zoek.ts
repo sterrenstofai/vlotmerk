@@ -35,6 +35,9 @@ export function cacheSleutel(term: string, opts: Opties): string {
   return `${term.trim().toLowerCase()}|${klassen}|${opts.activeOnly ? "actief" : "alles"}`;
 }
 
+/** Zoveel zoekopdrachten lopen tegelijk naar één bron. */
+const TEGELIJK = 4;
+
 const vers = (opgehaald: Date) => Date.now() - opgehaald.getTime() < CACHE_UREN * 60 * 60 * 1000;
 
 /**
@@ -50,21 +53,28 @@ export async function zoekInBron(bron: RegisterSource, termen: string[], opts: O
   let zoekopdrachten = 0;
   try {
     // Hoofdletters maken voor het register niet uit: "Apple" en "apple" zijn één zoekopdracht.
-    const uniek = new Map(termen.map((t) => [t.trim().toLowerCase(), t.trim()] as const).filter(([k]) => k));
-    for (const term of uniek.values()) {
-      const sleutel = cacheSleutel(term, opts);
-      const bewaard = await cache.lees(bron.id, sleutel);
-      let hits: Hit[];
-      if (bewaard && vers(bewaard.opgehaald)) {
-        hits = bewaard.hits;
-      } else {
-        hits = await bron.search(term, opts);
-        zoekopdrachten++;
-        await cache.schrijf(bron.id, sleutel, hits);
-      }
-      // Hetzelfde merk kan bij meerdere varianten opduiken; de eerste variant die het vond blijft staan.
-      for (const hit of hits) if (!perNummer.has(hit.nummer)) perNummer.set(hit.nummer, hit);
-    }
+    const termenUniek = [...new Map(termen.map((t) => [t.trim().toLowerCase(), t.trim()] as const).filter(([k]) => k)).values()];
+    const perTerm: Hit[][] = new Array(termenUniek.length);
+    let volgende = 0;
+    // Een paar zoekopdrachten tegelijk: twintig varianten na elkaar duurt te lang voor een rapport van twee minuten.
+    await Promise.all(
+      Array.from({ length: Math.min(TEGELIJK, termenUniek.length) }, async () => {
+        for (let i = volgende++; i < termenUniek.length; i = volgende++) {
+          const term = termenUniek[i];
+          const sleutel = cacheSleutel(term, opts);
+          const bewaard = await cache.lees(bron.id, sleutel);
+          if (bewaard && vers(bewaard.opgehaald)) {
+            perTerm[i] = bewaard.hits;
+          } else {
+            perTerm[i] = await bron.search(term, opts);
+            zoekopdrachten++;
+            await cache.schrijf(bron.id, sleutel, perTerm[i]);
+          }
+        }
+      }),
+    );
+    // Hetzelfde merk kan bij meerdere varianten opduiken; de eerste variant in de lijst die het vond blijft staan.
+    for (const hits of perTerm) for (const hit of hits) if (!perNummer.has(hit.nummer)) perNummer.set(hit.nummer, hit);
   } catch (error) {
     return { ok: false, bron: bron.id, melding: error instanceof Error ? error.message : "Register tijdelijk niet bereikbaar." };
   }

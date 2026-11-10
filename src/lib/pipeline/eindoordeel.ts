@@ -46,7 +46,7 @@ const SYSTEM = `Je schrijft de conclusie van een merkonderzoek voor een ondernem
 
 De ondernemer beslist op basis van jouw tekst of hij honderden euro's uitgeeft aan een depot dat hij bij een weigering niet terugkrijgt. Schrijf daarom concreet en eerlijk, in de je-vorm, in korte zinnen, zonder juridische termen en zonder geruststellende of alarmerende toon.
 
-- samenvatting: twee of drie zinnen. Wat is de uitkomst en wat zijn de één of twee redenen die haar bepalen. Noem een botsend merk bij naam.
+- samenvatting: twee of drie zinnen. Wat is de uitkomst en wat zijn de één of twee redenen die haar bepalen. Noem een botsend merk bij naam. Was een register niet bereikbaar, zeg dat dan in de eerste of tweede zin en open niet met een geruststelling: wat niet is doorzocht, kan niet schoon zijn.
 - aandachtspunten: nul tot vier punten, elk één of twee zinnen, het zwaarste eerst. Alleen punten waar de ondernemer iets mee kan of moet. Een register dat niet bereikbaar was, is altijd een aandachtspunt: zeg dat dat deel niet is onderzocht.
 - volgendeStap: één concrete handeling, in één of twee zinnen. Bij "Niet doen" of "Riskant" is dat een andere naam kiezen of het voorleggen aan een merkengemachtigde, niet deponeren.
 

@@ -36,7 +36,7 @@ npm run test:bronnen
 
 Die test draait zonder netwerk en zonder kosten.
 
-**Sessie 4 (scoren en eindoordeel)** is geschreven; de vaste regels zijn getest, het deel dat Claude gebruikt is nog niet gedraaid:
+**Sessie 4 (scoren en eindoordeel)** is klaar en gedraaid tegen Claude en de sandbox van EUIPO (testgegevens):
 
 - gelijkenis in schrijfwijze en klank zonder taalmodel: `src/lib/pipeline/gelijkenis.ts`;
 - stap 5: `src/lib/pipeline/scoren.ts`. De meest gelijkende treffers (hooguit veertig) gaan naar Claude voor beeld, klank, betekenis en soortgelijkheid; het risico volgt daarna uit vaste regels in `src/lib/config/ai.ts`;
@@ -51,6 +51,8 @@ npm test
 ```bash
 npm run rapport -- "Trapvonk" "Fietsenwinkel met werkplaats"
 ```
+
+Proefruns op 10 november 2026: "Trapvonk" voor een fietsenwinkel gaf "Kan, met aandachtspunten" in 92 seconden (ongeveer $0,10); "Nyke" voor sportschoenen gaf "Niet doen" in 82 seconden (ongeveer $0,27), met het bekende NIKE als hoog risico. Elk rapport meldt nu nog dat het Benelux-register niet bereikbaar is.
 
 `npm test` draait zonder netwerk en zonder kosten. `npm run rapport` heeft de sleutels van Anthropic en EUIPO nodig en kost geld per run.
 

@@ -24,9 +24,14 @@ const OMGEVINGEN = {
 const TESTNAAM = "EUIPO";
 const PAGINA = 100;
 const MAX_PAGINAS = 3;
-const HERKANSINGEN = 3;
-const WACHT_MS = 1200;
-const wacht = (poging: number) => new Promise((r) => setTimeout(r, WACHT_MS * 2 ** (poging - 1)));
+/**
+ * De sandbox weigert willekeurig ongeveer een op de drie geldige aanroepen met een 401, los van het tempo
+ * (gemeten op 10 november 2026). Zes herkansingen brengen de kans dat een zoekopdracht daardoor mislukt
+ * onder de 0,1%. Of productie dit ook doet, is niet bekend.
+ */
+const HERKANSINGEN = 6;
+const WACHT_MS = 400;
+const wacht = (poging: number) => new Promise((r) => setTimeout(r, WACHT_MS * poging));
 
 const STATUS: Record<string, Hit["status"]> = {
   RECEIVED: "aangevraagd",

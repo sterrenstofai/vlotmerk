@@ -99,7 +99,7 @@ Je krijgt de nieuwe naam, wat de ondernemer doet, de klassen waarin hij wil depo
 
 Beoordeel het teken als geheel. Een beschrijvend onderdeel, zoals "fietsen" bij een fietsenwinkel, telt nauwelijks mee; het onderscheidende deel bepaalt de indruk.
 
-Schrijf per merk een uitleg van één zin, in de je-vorm en in gewone taal: waarin lijkt het op de naam en waarom is dat wel of geen probleem. Zeg nooit dat de naam "vrij" of "veilig" is. Geef precies één beoordeling per nummer uit de lijst.`;
+Schrijf per merk een uitleg van één zin, in de je-vorm en in gewone taal: waarin lijkt het op de naam en waarom is dat wel of geen probleem. Zeg nooit dat de naam "vrij" of "veilig" is. Elke uitleg moet op zichzelf te lezen zijn: verwijs niet naar een nummer uit de lijst of naar een ander merk in de lijst. Geef precies één beoordeling per nummer uit de lijst.`;
 
 const begrens = (n: number) => Number(Math.min(1, Math.max(0, n)).toFixed(2));
 

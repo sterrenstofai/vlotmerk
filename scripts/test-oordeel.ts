@@ -169,6 +169,7 @@ const tests: [string, () => Promise<void> | void][] = [
       assert.equal(await domeinStatus("x.nl", nep(404)), "vrij");
       assert.equal(await domeinStatus("x.nl", nep(200)), "bezet");
       assert.equal(await domeinStatus("x.nl", nep(503)), "onbekend");
+      assert.equal(await domeinStatus("x.eu", nep(404)), "onbekend", "een extensie zonder register-server is nooit vrij");
       assert.equal(await domeinStatus("x.nl", (async () => { throw new Error("geen netwerk"); }) as unknown as typeof fetch), "onbekend");
       const a = await aanvullendeChecks("Trapvonk", ["nl", "com"], nep(404));
       assert.deepEqual(a, { domeinen: [{ domein: "trapvonk.nl", status: "vrij" }, { domein: "trapvonk.com", status: "vrij" }], handelsnamen: null });
