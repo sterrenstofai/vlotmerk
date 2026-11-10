@@ -1,0 +1,7 @@
+# Bouwinstellingen voor Netlify. De plugin zet de Next.js-app om naar functies; zonder plugin komt er alleen een 404.
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
