@@ -116,6 +116,7 @@ const tests: [string, () => Promise<void> | void][] = [
       assert.ok(q.includes("niceClasses=in=(35,37)"));
       assert.ok(q.includes("status=out=("));
       assert.ok(!euipoQuery("Trapvonk", { activeOnly: false }).includes("status"));
+      assert.equal(euipoQuery("Trapvonk", { activeOnly: false }, true), 'wordMarkSpecification.verbalElement=="Trapvonk"');
     },
   ],
   [

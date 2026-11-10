@@ -27,7 +27,7 @@ Een ondernemer vult een merknaam in en krijgt een risico-indicatie: is de naam o
 
 - stap 3: `src/lib/pipeline/varianten.ts`. Vaste varianten zonder taalmodel, aangevuld door Claude (de aanvulling is nog niet tegen Claude gedraaid);
 - zoeklaag met gezondheidscheck en cache van 24 uur: `src/lib/sources/zoek.ts`. Een uitgevallen bron levert altijd "niet bereikbaar" op, nooit nul treffers;
-- EU-merken: `src/lib/sources/euipo.ts`, geschreven tegen de openbare specificatie van de officiële EUIPO-API (versie 1.1.0). Nog niet tegen de API gedraaid: daarvoor zijn een client-id en -secret van dev.euipo.europa.eu nodig;
+- EU-merken: `src/lib/sources/euipo.ts`, geschreven tegen de openbare specificatie van de officiële EUIPO-API (versie 1.1.0). Getest tegen de sandbox van EUIPO (testgegevens). De sandbox weigert af en toe een geldige aanroep; de adapter probeert het dan opnieuw. Productietoegang is nog niet aangevraagd;
 - Benelux-merken: nog niet gekoppeld. `src/lib/sources/benelux.ts` meldt zich als niet bereikbaar tot er een bron gekozen is.
 
 ```bash

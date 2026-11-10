@@ -49,7 +49,9 @@ export async function zoekInBron(bron: RegisterSource, termen: string[], opts: O
   const perNummer = new Map<string, Hit>();
   let zoekopdrachten = 0;
   try {
-    for (const term of [...new Set(termen.map((t) => t.trim()).filter(Boolean))]) {
+    // Hoofdletters maken voor het register niet uit: "Apple" en "apple" zijn één zoekopdracht.
+    const uniek = new Map(termen.map((t) => [t.trim().toLowerCase(), t.trim()] as const).filter(([k]) => k));
+    for (const term of uniek.values()) {
       const sleutel = cacheSleutel(term, opts);
       const bewaard = await cache.lees(bron.id, sleutel);
       let hits: Hit[];

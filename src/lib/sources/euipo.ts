@@ -24,6 +24,9 @@ const OMGEVINGEN = {
 const TESTNAAM = "EUIPO";
 const PAGINA = 100;
 const MAX_PAGINAS = 3;
+const HERKANSINGEN = 3;
+const WACHT_MS = 1200;
+const wacht = (poging: number) => new Promise((r) => setTimeout(r, WACHT_MS * 2 ** (poging - 1)));
 
 const STATUS: Record<string, Hit["status"]> = {
   RECEIVED: "aangevraagd",
@@ -61,8 +64,8 @@ type Resultaat = { trademarks: Item[]; totalPages: number };
 /** Tekens met een betekenis in RSQL halen we uit de zoekterm; de API kent geen manier om ze te ontwijken binnen een wildcard. */
 const veilig = (term: string) => term.replace(/["'();,=!~<>*\\]/g, " ").replace(/\s+/g, " ").trim();
 
-export function euipoQuery(term: string, opts: { classes?: number[]; activeOnly: boolean }): string {
-  const delen = [`wordMarkSpecification.verbalElement=="*${veilig(term)}*"`];
+export function euipoQuery(term: string, opts: { classes?: number[]; activeOnly: boolean }, exact = false): string {
+  const delen = [`wordMarkSpecification.verbalElement=="${exact ? veilig(term) : `*${veilig(term)}*`}"`];
   if (opts.classes?.length) delen.push(`niceClasses=in=(${opts.classes.join(",")})`);
   if (opts.activeOnly) delen.push(`status=out=(${VERVALLEN.join(",")})`);
   return delen.join(" and ");
@@ -94,15 +97,22 @@ export function maakEuipoBron(env: Record<string, string | undefined> = process.
     const id = env.EUIPO_CLIENT_ID;
     const geheim = env.EUIPO_CLIENT_SECRET;
     if (!id || !geheim) throw new Error("EUIPO_CLIENT_ID of EUIPO_CLIENT_SECRET ontbreekt.");
-    const res = await fetch(omgeving.token, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ client_id: id, client_secret: geheim, grant_type: "client_credentials", scope: "uid" }),
-    });
-    if (!res.ok) throw new Error(`EUIPO gaf geen toegang (${res.status}).`);
-    const json = (await res.json()) as { access_token: string; expires_in?: number };
-    token = { waarde: json.access_token, verloopt: Date.now() + (json.expires_in ?? 3600) * 1000 };
-    return token.waarde;
+    // Ook de inlogserver weigert af en toe een geldige aanvraag; daarom dezelfde herkansingen als bij het zoeken.
+    let status = 0;
+    for (let poging = 0; poging <= HERKANSINGEN; poging++) {
+      if (poging) await wacht(poging);
+      const res = await fetch(omgeving.token, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ client_id: id, client_secret: geheim, grant_type: "client_credentials", scope: "uid" }),
+      });
+      status = res.status;
+      if (!res.ok) continue;
+      const json = (await res.json()) as { access_token: string; expires_in?: number };
+      token = { waarde: json.access_token, verloopt: Date.now() + (json.expires_in ?? 3600) * 1000 };
+      return token.waarde;
+    }
+    throw new Error(`EUIPO gaf geen toegang (${status}).`);
   }
 
   async function pagina(query: string, page: number): Promise<Resultaat> {
@@ -110,27 +120,40 @@ export function maakEuipoBron(env: Record<string, string | undefined> = process.
     url.searchParams.set("query", query);
     url.searchParams.set("size", String(PAGINA));
     url.searchParams.set("page", String(page));
-    const res = await fetch(url, {
-      headers: { Authorization: `Bearer ${await haalToken()}`, "X-IBM-Client-Id": env.EUIPO_CLIENT_ID ?? "", Accept: "application/json" },
-    });
-    if (res.status === 429) throw new Error("EUIPO: te veel zoekopdrachten, probeer het later opnieuw.");
-    if (!res.ok) throw new Error(`EUIPO gaf een fout (${res.status}).`);
-    return (await res.json()) as Resultaat;
+    // De API weigert af en toe een aanroep (401, 429 of 5xx) die een tel later wel slaagt. Daarom een paar
+    // herkansingen met oplopende wachttijd. Blijft het misgaan, dan valt de bron uit en meldt de check dat.
+    let laatste = 0;
+    for (let poging = 0; poging <= HERKANSINGEN; poging++) {
+      if (poging) await wacht(poging);
+      const res = await fetch(url, {
+        headers: { Authorization: `Bearer ${await haalToken()}`, "X-IBM-Client-Id": env.EUIPO_CLIENT_ID ?? "", Accept: "application/json" },
+      });
+      if (res.ok) return (await res.json()) as Resultaat;
+      laatste = res.status;
+      // Een 401 is meestal van voorbijgaande aard. Pas bij de laatste herkansing vragen we een nieuw token aan.
+      if (res.status === 401 && poging === HERKANSINGEN - 1) token = null;
+      if (![401, 429].includes(res.status) && res.status < 500) break;
+    }
+    throw new Error(laatste === 429 ? "EUIPO: te veel zoekopdrachten, probeer het later opnieuw." : `EUIPO gaf een fout (${laatste}).`);
   }
 
   async function search(term: string, opts: { classes?: number[]; activeOnly: boolean }): Promise<Hit[]> {
     if (!veilig(term)) return [];
-    const query = euipoQuery(term, opts);
-    const hits: Hit[] = [];
-    for (let p = 0; p < MAX_PAGINAS; p++) {
-      const r = await pagina(query, p);
-      for (const item of r.trademarks) {
-        const hit = euipoNaarHit(item, term);
-        if (hit) hits.push(hit);
+    // Eerst de exacte naam, daarna alles waar de term in voorkomt. Zo valt een identiek merk nooit buiten
+    // de paginagrens als een veelvoorkomend woord honderden treffers geeft.
+    const perNummer = new Map<string, Hit>();
+    for (const exact of [true, false]) {
+      const query = euipoQuery(term, opts, exact);
+      for (let p = 0; p < MAX_PAGINAS; p++) {
+        const r = await pagina(query, p);
+        for (const item of r.trademarks) {
+          const hit = euipoNaarHit(item, term);
+          if (hit && !perNummer.has(hit.nummer)) perNummer.set(hit.nummer, hit);
+        }
+        if (p + 1 >= r.totalPages) break;
       }
-      if (p + 1 >= r.totalPages) break;
     }
-    return hits;
+    return [...perNummer.values()];
   }
 
   return {
