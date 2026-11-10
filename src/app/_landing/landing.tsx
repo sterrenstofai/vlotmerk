@@ -248,10 +248,10 @@ export default function Landing() {
         <section className="hero" id="top">
           <div className="hang" ref={hangHost} aria-hidden="true" />
           <h1 className="disp" data-rv>
-            <Words>Je merk vastgelegd in 1, 2, 3.</Words>
+            <Words>Je merk veilig en snel vastgelegd.</Words>
           </h1>
           <p className="hero-sub" data-rv>
-            Check je naam, lees je rapport en leg je merk vast. Zonder bureau en zonder uurtarief.
+            In drie stappen, vanaf {euro(EEN_KLASSE.totaal)} alles bij elkaar. Honderden euro’s goedkoper dan een merkenbureau.
           </p>
           <div className="hero-cta" data-rv>
             {cta("Bekijk een voorbeeldcheck")}
@@ -423,7 +423,7 @@ export default function Landing() {
           </div>
           <div>
             <h3>Gemaakt door</h3>
-            <span>Sterrenstof</span>
+            <span>Anne Floor Mensink</span>
             <span>© 2026</span>
           </div>
         </div>

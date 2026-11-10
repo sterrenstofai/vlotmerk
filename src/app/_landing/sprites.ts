@@ -1,9 +1,9 @@
 /**
- * De kit-objecten zijn wit-grijze 3D-renders. Hier kleuren we ze in met een merkkleur:
+ * De objecten zijn wit-grijze 3D-renders (reg, shield, label, bell en lock zijn voor deze site gegenereerd met Higgsfield). Hier kleuren we ze in met een merkkleur:
  * de grijswaarde wordt de schaduw, de lichtste plekken blijven als glans staan.
  */
 
-export type SpriteKey = "swatches" | "type" | "stamp" | "bubble" | "loupe" | "paper" | "star" | "box" | "page";
+export type SpriteKey = "reg" | "shield" | "label" | "bell" | "lock" | "stamp" | "loupe" | "paper" | "page";
 
 export type Sprite = { data: Uint8ClampedArray; w: number; h: number };
 

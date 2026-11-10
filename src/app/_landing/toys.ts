@@ -20,18 +20,18 @@ type Thing = {
 };
 
 const LABELS: Record<SpriteKey, string> = {
-  box: "Je kit",
-  swatches: "Kleur",
-  type: "Typografie",
-  stamp: "Logo",
-  bubble: "Toon",
-  loupe: "Tekst-check",
-  paper: "Je PDF",
-  star: "AI",
-  page: "Kitpagina",
+  reg: "Ingeschreven",
+  shield: "Bewaking",
+  label: "Je naam",
+  bell: "Melding",
+  lock: "Vastgelegd",
+  stamp: "Depot",
+  loupe: "Check",
+  paper: "Rapport",
+  page: "Dossier",
 };
-const SCALE: Partial<Record<SpriteKey, number>> = { box: 1.14, swatches: 1.05, star: 0.9, paper: 0.94, page: 1.06 };
-const ROUND: SpriteKey[] = ["bubble", "star"];
+const SCALE: Partial<Record<SpriteKey, number>> = { label: 1.1, shield: 0.95, paper: 0.94, page: 1.06 };
+const ROUND: SpriteKey[] = ["reg", "bell"];
 
 /** Gedeelde basis: objecten met zwaartekracht die je kunt oppakken, gooien of aantikken. */
 abstract class Toybox {
@@ -346,18 +346,18 @@ export class Hang extends Toybox {
     const base = narrow ? 84 : this.size();
     const slots: { key: SpriteKey | "tag"; x: number; len: number }[] = narrow
       ? [
-          { key: "swatches", x: -132, len: 96 },
-          { key: "star", x: -52, len: 172 },
+          { key: "label", x: -132, len: 96 },
+          { key: "shield", x: -52, len: 172 },
           { key: "tag", x: 36, len: 246 },
-          { key: "type", x: 130, len: 108 },
+          { key: "lock", x: 130, len: 108 },
         ]
       : [
-          { key: "box", x: -470, len: 96 },
-          { key: "swatches", x: -290, len: 152 },
-          { key: "star", x: -112, len: 84 },
+          { key: "reg", x: -470, len: 96 },
+          { key: "label", x: -290, len: 152 },
+          { key: "shield", x: -112, len: 84 },
           { key: "tag", x: 72, len: 236 },
-          { key: "bubble", x: 262, len: 92 },
-          { key: "type", x: 448, len: 150 },
+          { key: "bell", x: 262, len: 92 },
+          { key: "lock", x: 448, len: 150 },
         ];
     let tint = 0;
     for (const [i, slot] of slots.entries()) {
@@ -435,7 +435,7 @@ export class Pile extends Toybox {
   protected async populate() {
     const base = this.size();
     const keys: SpriteKey[] =
-      this.w < 560 ? ["box", "swatches", "type", "stamp", "bubble", "paper", "star"] : ["box", "swatches", "type", "stamp", "bubble", "loupe", "paper", "star", "page"];
+      this.w < 560 ? ["reg", "label", "lock", "stamp", "bell", "paper", "shield"] : ["reg", "label", "lock", "stamp", "bell", "loupe", "paper", "shield", "page"];
     for (const [i, key] of keys.entries()) {
       const slot = (i + 0.5) / keys.length;
       const x = this.reduced ? this.w * (0.06 + slot * 0.88) : this.w * (0.1 + ((i * 0.37 + 0.13) % 1) * 0.8);
