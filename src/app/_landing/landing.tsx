@@ -231,7 +231,7 @@ export default function Landing() {
             <a href="#stappen">Zo werkt het</a>
             <a href="#prijs">Prijs</a>
             <a href="#proces">Het proces</a>
-            <Link href={EXAMPLE}>Voorbeeld</Link>
+            <Link href={EXAMPLE}>Voorbeeldrapport</Link>
           </nav>
         </div>
         <div className="nav-panel">
@@ -239,7 +239,7 @@ export default function Landing() {
             Inloggen
           </Link>
           <Link className="btn small" href={EXAMPLE}>
-            Check je naam
+            Voorbeeldrapport
           </Link>
         </div>
       </header>
@@ -255,7 +255,7 @@ export default function Landing() {
             Je merk veilig en snel vastgelegd. In drie stappen, voor {euro(ONZE_PRIJS)} plus het BOIP-tarief.
           </p>
           <div className="hero-cta" data-rv>
-            {cta("Bekijk een voorbeeldcheck")}
+            {cta("Bekijk een voorbeeldrapport")}
             <p className="note">{PRICE_LINE}</p>
           </div>
         </section>
@@ -282,7 +282,7 @@ export default function Landing() {
               </h2>
             </div>
             <Link className="btn ghost" href={EXAMPLE} data-rv>
-              <span>Bekijk een voorbeeld</span>
+              <span>Bekijk een voorbeeldrapport</span>
               <Arrow />
             </Link>
           </div>
@@ -359,7 +359,7 @@ export default function Landing() {
                   <span>+ {euro(BOIP_TARIEVEN.derdeKlasseEnVerder)}</span>
                 </li>
               </ul>
-              {cta("Bekijk een voorbeeldcheck")}
+              {cta("Bekijk een voorbeeldrapport")}
             </div>
           </div>
         </section>
@@ -399,7 +399,7 @@ export default function Landing() {
             Eerst checken. Dan vastleggen.
           </h2>
           <div className="hero-cta" data-rv>
-            {cta("Bekijk een voorbeeldcheck")}
+            {cta("Bekijk een voorbeeldrapport")}
             <p className="note">{PRICE_LINE}</p>
           </div>
         </section>
@@ -416,7 +416,7 @@ export default function Landing() {
           </div>
           <div>
             <h3>Voorbeeld</h3>
-            <Link href={EXAMPLE}>Voorbeeldcheck</Link>
+            <Link href={EXAMPLE}>Voorbeeldrapport</Link>
           </div>
           <div>
             <h3>Account</h3>

@@ -40,7 +40,7 @@ async function Content() {
       )}
       <div className="row-actions">
         <Link className="btn ghost" href="/check/voorbeeld">
-          Bekijk een voorbeeldcheck
+          Bekijk een voorbeeldrapport
         </Link>
       </div>
       <form action={signOut}>
