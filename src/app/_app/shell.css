@@ -1,0 +1,67 @@
+/*
+  Het skelet van de Merkkit-editor: links de onderdelen, midden het detail, rechts het voorbeeld.
+  Ongewijzigd overgenomen (zonder de upload- en importregels) voor het rapportscherm van sessie 5.
+  Nog niet in gebruik.
+*/
+.ed{--line:#e7e6e3;--panel:#f6f6f5;--fg:#2b2725;--muted:#6f6a66;--accent:#2b2725;font-family:var(--font-geist-sans),system-ui,sans-serif;color:var(--fg);background:#fff;height:100dvh;display:flex;flex-direction:column}
+.ed *{box-sizing:border-box}
+.ed .mono{font-family:var(--font-geist-mono),ui-monospace,monospace;font-size:12px;color:var(--muted)}
+.ed-top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.ed-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.save{font-size:13px;color:var(--muted)}
+.save.error{color:#a12b2b}
+.btn{display:inline-block;padding:9px 16px;border:1.5px solid var(--fg);border-radius:999px;background:var(--fg);color:#fff;font:600 14px inherit;font-family:inherit;text-decoration:none;cursor:pointer}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.ghost{background:#fff;color:var(--fg)}
+.btn:focus-visible,.ed button:focus-visible,.ed input:focus-visible,.ed select:focus-visible,.ed textarea:focus-visible,.ed a:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+.ed-tabs{display:none}
+.pubbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 20px;background:var(--panel);border-bottom:1px solid var(--line);font-size:14px}
+.pubbar input{flex:1 1 260px;min-width:0}
+.pass{color:#14472e;font-size:13px;margin:0}
+.fail{color:#7a1e1e;font-size:13px;margin:0}
+.ed-body{flex:1;min-height:0;display:grid;grid-template-columns:200px minmax(320px,440px) minmax(0,1fr)}
+.ed-nav{border-right:1px solid var(--line);padding:12px;overflow-y:auto;display:flex;flex-direction:column;gap:2px}
+.ed-nav button{display:flex;justify-content:space-between;align-items:center;text-align:left;padding:9px 12px;border:0;border-radius:8px;background:none;font:inherit;font-size:14px;cursor:pointer;color:var(--fg)}
+.ed-nav button:hover{background:var(--panel)}
+.ed-nav button.on{background:var(--panel);font-weight:600}
+.dot{width:8px;height:8px;border-radius:50%;background:#e0b400;display:inline-block}
+.ed-form{padding:20px;overflow-y:auto;border-right:1px solid var(--line)}
+.ed-form h2{font-size:20px;margin:0 0 12px}
+.ed-form h3{font-size:15px;margin:28px 0 10px}
+.sources{display:grid;gap:6px;margin-bottom:16px}
+.src{font-size:12px;color:var(--muted);display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.badge{background:#fff4c2;color:#5c4b00;border:1px solid #e6d27a;border-radius:999px;padding:1px 9px;font-size:11px}
+.f{display:grid;gap:5px;margin-bottom:12px}
+.f label,.chips{font-size:12px;color:var(--muted)}
+.f input[type=text],.f input[type=number],.f select,.f textarea,.pubbar input{width:100%;padding:9px 11px;border:1px solid #d4d2cd;border-radius:8px;font:inherit;font-size:14px;background:#fff;color:var(--fg)}
+.f textarea{resize:vertical}
+.f input[aria-invalid=true]{border-color:#a12b2b}
+.rows{display:grid;gap:12px}
+.row{border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:8px}
+.row-body{min-width:0}
+.link{justify-self:start;background:none;border:0;padding:0;font:inherit;font-size:13px;cursor:pointer;text-decoration:underline}
+.danger{color:#a12b2b}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{display:flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:13px;color:var(--fg)}
+.toggle{display:flex;gap:10px;align-items:center;font-size:15px}
+.hint{font-size:13px;color:var(--muted);margin:0 0 6px}
+.ed-preview{min-width:0;background:var(--panel)}
+.ed-preview iframe{width:100%;height:100%;border:0;background:#fff}
+@media (max-width:1100px){
+  .ed-body{grid-template-columns:170px minmax(0,1fr)}
+  .ed-preview{display:none}
+  .ed-body.preview{grid-template-columns:1fr}
+  .ed-body.preview .ed-nav,.ed-body.preview .ed-form{display:none}
+  .ed-body.preview .ed-preview{display:block}
+  .ed-tabs{display:flex;gap:8px;width:100%}
+  .ed-tabs button{flex:1;padding:8px;border:1px solid var(--line);border-radius:8px;background:#fff;font:inherit;cursor:pointer}
+  .ed-tabs button.on{background:var(--fg);color:#fff}
+}
+@media (max-width:640px){
+  .ed-body{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}
+  .ed-nav{flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line)}
+  .ed-nav button{white-space:nowrap}
+  .ed-body.preview{grid-template-rows:1fr}
+  .grid2{grid-template-columns:1fr}
+}
