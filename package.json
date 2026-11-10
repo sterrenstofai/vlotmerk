@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "testset": "tsx scripts/testset.ts",
-    "check": "tsx scripts/check.ts"
+    "check": "tsx scripts/check.ts",
+    "test:bronnen": "tsx scripts/test-bronnen.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.7.0",
