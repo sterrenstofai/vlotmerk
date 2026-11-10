@@ -36,6 +36,24 @@ npm run test:bronnen
 
 Die test draait zonder netwerk en zonder kosten.
 
+**Sessie 4 (scoren en eindoordeel)** is geschreven; de vaste regels zijn getest, het deel dat Claude gebruikt is nog niet gedraaid:
+
+- gelijkenis in schrijfwijze en klank zonder taalmodel: `src/lib/pipeline/gelijkenis.ts`;
+- stap 5: `src/lib/pipeline/scoren.ts`. De meest gelijkende treffers (hooguit veertig) gaan naar Claude voor beeld, klank, betekenis en soortgelijkheid; het risico volgt daarna uit vaste regels in `src/lib/config/ai.ts`;
+- stap 6: `src/lib/pipeline/aanvullend.ts`. Domeinnamen via RDAP; de handelsnaam (KvK) is nog niet gekoppeld;
+- stap 7: `src/lib/pipeline/eindoordeel.ts`. De uitkomst volgt uit vaste regels en wordt door Claude verwoord. Met een uitgevallen register is "sterke kandidaat" uitgesloten;
+- alles achter elkaar: `src/lib/pipeline/rapport.ts`.
+
+```bash
+npm test
+```
+
+```bash
+npm run rapport -- "Trapvonk" "Fietsenwinkel met werkplaats"
+```
+
+`npm test` draait zonder netwerk en zonder kosten. `npm run rapport` heeft de sleutels van Anthropic en EUIPO nodig en kost geld per run.
+
 De landingspagina heeft de drie stappen, de prijsvergelijking en het proces. De check zelf zit nog niet in de site: dat volgt met de betaalflow.
 
 ## Testset en losse check

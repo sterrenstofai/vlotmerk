@@ -9,7 +9,10 @@
     "lint": "eslint",
     "testset": "tsx scripts/testset.ts",
     "check": "tsx scripts/check.ts",
-    "test:bronnen": "tsx scripts/test-bronnen.ts"
+    "test:bronnen": "tsx scripts/test-bronnen.ts",
+    "test:oordeel": "tsx scripts/test-oordeel.ts",
+    "rapport": "tsx scripts/rapport.ts",
+    "test": "npm run test:bronnen && npm run test:oordeel"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.7.0",

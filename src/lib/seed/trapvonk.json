@@ -289,7 +289,7 @@
           "klassenOverlap": [],
           "visueel": 0.1,
           "auditief": 0.1,
-          "begripsmatig": 0.7,
+          "begripsmatig": 0.6,
           "soortgelijkheid": 0.6,
           "bekendMerk": false
         },
