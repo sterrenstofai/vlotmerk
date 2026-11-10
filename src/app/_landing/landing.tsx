@@ -15,6 +15,7 @@ import "./landing.css";
 
 const EXAMPLE = "/check/voorbeeld";
 const TOTAAL = totaalMetCheck(1);
+const ONZE_PRIJS = PRIJZEN.check + PRIJZEN.depot;
 const PRICE_LINE = `Check ${euro(PRIJZEN.check)}. Rapport ${euro(PRIJZEN.rapport)}. Depot ${euro(PRIJZEN.depot)} + BOIP-tarief.`;
 const PEILDATUM = new Date(VERGELIJKING.peildatum).toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" });
 
@@ -248,10 +249,10 @@ export default function Landing() {
         <section className="hero" id="top">
           <div className="hang" ref={hangHost} aria-hidden="true" />
           <h1 className="disp" data-rv>
-            <Words>Je merk veilig en snel vastgelegd.</Words>
+            <Words>De goedkoopste merkregistratie van Nederland.</Words>
           </h1>
           <p className="hero-sub" data-rv>
-            In drie stappen, vanaf {euro(TOTAAL)} alles bij elkaar. Honderden euro’s goedkoper dan een merkenbureau.
+            Je merk veilig en snel vastgelegd. In drie stappen, voor {euro(ONZE_PRIJS)} plus het BOIP-tarief.
           </p>
           <div className="hero-cta" data-rv>
             {cta("Bekijk een voorbeeldcheck")}
@@ -326,7 +327,8 @@ export default function Landing() {
             </div>
             <p className="note" data-rv>
               Benelux-merk in één klasse, inclusief BOIP-tarief, exclusief btw. Merkenbureaus: vanafprijzen op de websites van drie Nederlandse
-              bureaus, gepeild op {PEILDATUM}. Zelf indienen bij BOIP zonder check kost {euro(BOIP_TARIEVEN.depotMetEersteKlasse)}.
+              bureaus, gepeild op {PEILDATUM}. Zelf indienen bij BOIP zonder check kost {euro(BOIP_TARIEVEN.depotMetEersteKlasse)}. Goedkoopste: onze
+              eigen prijs is {euro(ONZE_PRIJS)} voor check en depotdossier; het BOIP-tarief betaal je rechtstreeks aan BOIP.
             </p>
           </div>
           <div className="col h">

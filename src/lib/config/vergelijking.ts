@@ -2,8 +2,11 @@
  * Prijzen van anderen, voor de vergelijking op de landingspagina.
  * Alles hier is een bewering over een ander: houd de bron en de peildatum erbij en peil opnieuw voor livegang.
  *
- * Bewust geen claim "goedkoopste van Nederland": op de peildatum bood i24.nl een Benelux-registratie
- * aan voor EUR 319 (1 klasse, excl. btw), en zelf indienen bij BOIP kost alleen het BOIP-tarief.
+ * De kop claimt "de goedkoopste merkregistratie van Nederland". Onderbouwing: onze eigen prijs (check plus
+ * depotdossier); het BOIP-tarief betaalt de klant rechtstreeks aan BOIP.
+ * Risico: i24.nl bood op de peildatum een Benelux-registratie aan voor EUR 319 (1 klasse, excl. btw).
+ * Op die pagina staat niet of het BOIP-tarief van EUR 244 daarin zit. Zit het erin, dan is i24 voor de klant
+ * in totaal goedkoper dan wij en houdt de claim geen stand. Navragen bij i24 voor livegang.
  */
 export const VERGELIJKING = {
   peildatum: "2026-11-10",
