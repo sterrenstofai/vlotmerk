@@ -17,7 +17,7 @@ Een ondernemer vult een merknaam in en krijgt een risico-indicatie: is de naam o
 - interface voor registerbronnen: `src/lib/sources/types.ts`;
 - één hard gecodeerde voorbeeldcheck: `src/lib/seed/trapvonk.json`, te zien op `/check/voorbeeld`.
 
-**Sessie 2 (onderscheidend vermogen en klassenadvies)** is geschreven, maar nog niet tegen Claude gedraaid:
+**Sessie 2 (onderscheidend vermogen en klassenadvies)** is klaar en gedraaid tegen Claude:
 
 - stap 1: `src/lib/pipeline/onderscheidend.ts`. Claude geeft een score per weigeringsgrond; het oordeel volgt uit de drempels in `src/lib/config/ai.ts`;
 - stap 2: `src/lib/pipeline/klassen.ts`. De termen zijn nog niet gecontroleerd tegen de geharmoniseerde databank en staan daarom op "niet gevalideerd";
@@ -42,6 +42,16 @@ npm run check -- "Trapvonk" "Fietsenwinkel met werkplaats"
 ```
 
 De testset slaagt bij minimaal 90% goed. Draai hem na elke wijziging aan de prompts of de drempels.
+
+Uitslag op 10 november 2026, met `--klassen`:
+
+| Model | Goed | Kosten van de run | Duur |
+|---|---|---|---|
+| `claude-opus-5-5` | 33 van 33 | ongeveer $0,93 | 1 min 34 |
+| `claude-haiku-5-5` | 32 van 33 | ongeveer $0,03 | 1 min 05 |
+
+Haiku miste één grensgeval (Wolkenwerk: zwak in plaats van twijfel of sterk). Eén losse check met klassenadvies duurde 9,6 seconden op Opus.
+De check en het rapport draaien allebei op Opus: dan kan het oordeel in het rapport nooit afwijken van dat in de check.
 
 ## Draaien
 
