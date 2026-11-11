@@ -18,7 +18,7 @@ export const BOIP_TARIEVEN = {
 export const PRIJZEN = {
   /** De eerste check. Bewust niet gratis: een kleine prijs zet een serieuzere toon. */
   check: 2.99,
-  rapport: 19,
+  /** Het volledige rapport en het depotdossier, samen. Een los rapport verkopen we niet. */
   depot: 79,
   bewakingPerMaand: 4,
 } as const;

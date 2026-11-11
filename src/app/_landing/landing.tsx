@@ -16,40 +16,98 @@ import "./landing.css";
 const EXAMPLE = "/check/voorbeeld";
 const TOTAAL = totaalMetCheck(1);
 const ONZE_PRIJS = PRIJZEN.check + PRIJZEN.depot;
-const PRICE_LINE = `Check ${euro(PRIJZEN.check)}. Rapport ${euro(PRIJZEN.rapport)}. Depot ${euro(PRIJZEN.depot)} + BOIP-tarief.`;
+const BOIP = BOIP_TARIEVEN.depotMetEersteKlasse;
+const BESPARING = Math.floor(VERGELIJKING.merkenbureaus.laag - TOTAAL);
+const PRICE_LINE = `Samen ${euro(TOTAAL)}, excl. btw. Bij een merkenbureau ${euro(VERGELIJKING.merkenbureaus.laag)} tot ${euro(VERGELIJKING.merkenbureaus.hoog)}.`;
 const PEILDATUM = new Date(VERGELIJKING.peildatum).toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" });
 
 const SOURCES = ["Benelux (BOIP)", "EU (EUIPO)", "Domeinnamen", "KvK"];
 
-const STEPS: { title: string; price: string; text: string; icon: SpriteKey }[] = [
+const STEPS: { title: string; short: string; price: string; text: string; icon: SpriteKey }[] = [
   {
     title: "Check je naam",
+    short: "Check",
     price: euro(PRIJZEN.check),
-    text: "Vul je naam in en vertel wat je doet. Je ziet direct of de naam sterk genoeg is en of er een bijna gelijk merk bestaat.",
+    text: "Vul je naam in en vertel wat je doet. Binnen een halve minuut weet je of de naam sterk genoeg is en of er een bijna gelijk merk bestaat.",
     icon: "loupe",
   },
   {
-    title: "Lees je rapport",
-    price: euro(PRIJZEN.rapport),
-    text: "Alle merken die op jouw naam lijken, met het risico erbij. Plus de klassen die bij je passen en wat het kost.",
+    title: "Rapport en depotdossier",
+    short: "Rapport en dossier",
+    price: euro(PRIJZEN.depot),
+    text: "Het volledige onderzoek naar botsende merken, de klassen die bij je passen, en een dossier dat zo in het formulier van BOIP past.",
     icon: "page",
   },
   {
-    title: "Leg je merk vast",
-    price: `${euro(PRIJZEN.depot)} + ${euro(BOIP_TARIEVEN.depotMetEersteKlasse)} BOIP`,
-    text: "Je krijgt een dossier dat zo in het formulier van BOIP past. Kopiëren, plakken, indienen. Het rapport zit erbij.",
+    title: "Indienen bij BOIP",
+    short: "BOIP-tarief",
+    price: euro(BOIP),
+    text: "Kopiëren, plakken, indienen. Je betaalt het tarief rechtstreeks aan BOIP, het officiële merkenbureau van de Benelux.",
     icon: "stamp",
+  },
+];
+
+const WHY: { title: string; text: string; icon: SpriteKey }[] = [
+  {
+    title: "Wie eerst deponeert, heeft het merk.",
+    text: "In de Benelux telt de datum van je depot. Legt een ander jouw naam eerder vast, dan sta jij achteraan, ook als je de naam al jaren gebruikt.",
+    icon: "lock",
+  },
+  {
+    title: "BOIP kijkt niet of je naam al bestaat.",
+    text: "BOIP schrijft je merk in zonder te controleren op oudere merken. De houder daarvan kan tot twee maanden na publicatie bezwaar maken.",
+    icon: "bell",
+  },
+  {
+    title: "Geweigerd is geld weg.",
+    text: `Wijst BOIP je naam af, dan krijg je de ${euro(BOIP)} niet terug. Een check van ${euro(PRIJZEN.check)} vooraf is de goedkoopste verzekering.`,
+    icon: "shield",
   },
 ];
 
 const FLOW: { when: string; title: string; text: string; price: string; ours: boolean }[] = [
   { when: "Stap 1", title: "Check", text: "Onderscheidend vermogen, bijna gelijke merken en je domeinnaam.", price: euro(PRIJZEN.check), ours: true },
-  { when: "Stap 2", title: "Rapport", text: "Volledige conflictscan, klassenadvies en kostenberekening, ook als PDF.", price: euro(PRIJZEN.rapport), ours: true },
-  { when: "Stap 3", title: "Depotdossier", text: "Alle velden van het BOIP-formulier ingevuld, met stappenplan. Het rapport zit erbij.", price: euro(PRIJZEN.depot), ours: true },
-  { when: "Indienen", title: "BOIP-tarief", text: "Je dient zelf in via MyBOIP en betaalt BOIP rechtstreeks. Eén klasse zit in het tarief.", price: euro(BOIP_TARIEVEN.depotMetEersteKlasse), ours: false },
+  { when: "Stap 2", title: "Rapport en depotdossier", text: "Volledige conflictscan, klassenadvies en alle velden van het BOIP-formulier ingevuld, met stappenplan.", price: euro(PRIJZEN.depot), ours: true },
+  { when: "Stap 3", title: "Indienen bij BOIP", text: "Je dient zelf in via MyBOIP en betaalt BOIP rechtstreeks. Eén klasse zit in het tarief.", price: euro(BOIP), ours: false },
   { when: "Daarna", title: "Toetsing en publicatie", text: "BOIP toetst je merk en publiceert het. Anderen hebben twee maanden om bezwaar te maken.", price: "Inbegrepen", ours: false },
   { when: "Klaar", title: "Inschrijving", text: "Je merk is ingeschreven en tien jaar van jou.", price: "Inbegrepen", ours: false },
   { when: "Optie", title: "Bewaking", text: "Elke week kijken we of iemand een merk aanvraagt dat op het jouwe lijkt. Je hoort het op tijd.", price: `${euro(PRIJZEN.bewakingPerMaand)} per maand`, ours: true },
+];
+
+const VS: { label: string; us: string; bureau: string; zelf: string }[] = [
+  { label: "Prijs voor één klasse", us: euro(TOTAAL), bureau: `${euro(VERGELIJKING.merkenbureaus.laag)} tot ${euro(VERGELIJKING.merkenbureaus.hoog)}`, zelf: euro(BOIP) },
+  { label: "Onderzoek naar botsende merken", us: "Ja, in je rapport", bureau: "Meestal, verschilt per bureau", zelf: "Nee, zelf uitzoeken" },
+  { label: "Klassen gekozen en omschreven", us: "Ja, zo smal mogelijk", bureau: "Ja", zelf: "Nee, zelf doen" },
+  { label: "Hoe snel", us: "Rapport binnen twee minuten", bureau: "Op afspraak", zelf: "Zodra je het formulier snapt" },
+  { label: "Wie dient in", us: "Jij, met ons ingevulde dossier", bureau: "Het bureau", zelf: "Jij" },
+  { label: "Persoonlijk juridisch advies", us: "Nee, wel doorverwijzing", bureau: "Ja", zelf: "Nee" },
+];
+
+const FAQ: { q: string; a: string }[] = [
+  {
+    q: "Waarom is de check niet gratis?",
+    a: `Omdat we voor elke check echt in de registers zoeken. ${euro(PRIJZEN.check)} houdt de dienst serieus en is een fractie van de ${euro(BOIP)} die je kwijt bent als BOIP je naam weigert.`,
+  },
+  {
+    q: "Wat betaal ik in totaal?",
+    a: `${euro(PRIJZEN.check)} voor de check, ${euro(PRIJZEN.depot)} voor het rapport met depotdossier en ${euro(BOIP)} aan BOIP: samen ${euro(TOTAAL)} voor één klasse, exclusief btw. Een tweede klasse kost ${euro(BOIP_TARIEVEN.tweedeKlasse)} extra bij BOIP, elke klasse daarna ${euro(BOIP_TARIEVEN.derdeKlasseEnVerder)}.`,
+  },
+  {
+    q: "Is mijn merk daarna gegarandeerd ingeschreven?",
+    a: "Nee, en wie dat belooft, vertelt niet het hele verhaal. Je krijgt een risico-indicatie: hoe groot is de kans op een weigering of op bezwaar van een ouder merk. BOIP beslist over de inschrijving.",
+  },
+  {
+    q: "Wat als de check slecht uitvalt?",
+    a: `Dan heb je voor ${euro(PRIJZEN.check)} voorkomen dat je ${euro(BOIP)} kwijt bent. Je ziet waarom de naam zwak of riskant is, zodat je een betere kunt kiezen of het kunt voorleggen aan een merkengemachtigde.`,
+  },
+  {
+    q: "Moet ik zelf indienen bij BOIP?",
+    a: "Ja. Je krijgt een dossier met alle velden van het formulier al ingevuld en een stappenplan. Indienen is kopiëren en plakken. Daardoor betaal je geen bureau en blijft het merk direct op jouw naam staan.",
+  },
+  {
+    q: "Geldt mijn merk ook in België en Luxemburg?",
+    a: "Ja. Een Benelux-merk geldt in Nederland, België en Luxemburg tegelijk, tien jaar lang, en is daarna te verlengen.",
+  },
 ];
 
 function Words({ children }: { children: string }) {
@@ -230,8 +288,8 @@ export default function Landing() {
           <nav aria-label="Hoofdmenu">
             <a href="#stappen">Zo werkt het</a>
             <a href="#prijs">Prijs</a>
-            <a href="#proces">Het proces</a>
-            <Link href={EXAMPLE}>Voorbeeldrapport</Link>
+            <a href="#vergelijk">Vergelijk</a>
+            <a href="#vragen">Vragen</a>
           </nav>
         </div>
         <div className="nav-panel">
@@ -252,8 +310,18 @@ export default function Landing() {
             <Words>De goedkoopste merkregistratie van Nederland.</Words>
           </h1>
           <p className="hero-sub" data-rv>
-            Je merk veilig en snel vastgelegd. In drie stappen, voor {euro(ONZE_PRIJS)} plus het BOIP-tarief.
+            Je merk veilig en snel vastgelegd, in drie stappen. <span className="pill">Minstens {euro(BESPARING)} goedkoper</span> dan een
+            merkenbureau.
           </p>
+          <ol className="hero-steps" data-rv aria-label="De drie stappen met hun prijs">
+            {STEPS.map((step, i) => (
+              <li key={step.short}>
+                <span className="hero-n">{i + 1}</span>
+                <span className="hero-what">{step.short}</span>
+                <b className="disp">{step.price}</b>
+              </li>
+            ))}
+          </ol>
           <div className="hero-cta" data-rv>
             {cta("Bekijk een voorbeeldrapport")}
             <p className="note">{PRICE_LINE}</p>
@@ -270,7 +338,32 @@ export default function Landing() {
           </ul>
         </section>
 
-        {/* 3. Drie stappen, elk met zijn prijs */}
+        {/* 3. Waarom nu: drie feiten die de check de moeite waard maken */}
+        <section className="s" id="waarom">
+          <div className="head-row">
+            <div>
+              <p className="label" data-rv>
+                Waarom nu
+              </p>
+              <h2 className="disp" data-rv>
+                Een naam is pas van jou als hij is vastgelegd.
+              </h2>
+            </div>
+          </div>
+          <ul className="why">
+            {WHY.map((w, i) => (
+              <li key={w.title} className={i === 0 ? "deep" : "soft"} data-rv style={{ "--i": i } as CSSProperties}>
+                <span className="why-art">
+                  <KitIcon name={w.icon} color={brand.tints[(i + 2) % brand.tints.length]} />
+                </span>
+                <h3 className="disp">{w.title}</h3>
+                <p>{w.text}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* 4. Drie stappen, elk met zijn prijs */}
         <section className="s" id="stappen">
           <div className="head-row">
             <div>
@@ -302,7 +395,78 @@ export default function Landing() {
           </ol>
         </section>
 
-        {/* 4. Prijs: vergelijking links, kaart met de optelsom rechts */}
+        {/* 5. Het rapport: een voorproef in plaats van een beschrijving */}
+        <section className="s g12" id="rapport">
+          <div className="col a">
+            <p className="label" data-rv>
+              Wat je krijgt
+            </p>
+            <h2 className="disp" data-rv>
+              Geen los antwoord. Een onderzoeksdossier.
+            </h2>
+            <ul className="ticks" data-rv>
+              <li>Zes weigeringsgronden van BOIP, getoetst in vier talen</li>
+              <li>Tot 25 zoekvarianten: spelling, klank en vertaling</li>
+              <li>Per botsend merk de gelijkenis in beeld, klank en betekenis</li>
+              <li>Klassen, kosten en de volgende stap, zonder juridische taal</li>
+            </ul>
+            <Link className="btn ghost" href={EXAMPLE} data-rv>
+              <span>Open het hele voorbeeldrapport</span>
+              <Arrow />
+            </Link>
+          </div>
+          <div className="col h">
+            <Link className="peek deep" href={EXAMPLE} data-rv aria-label="Voorbeeldrapport voor de verzonnen naam Trapvonk">
+              <div className="panel-bar">
+                <span>Merkonderzoek Benelux · voorbeeld</span>
+                <span>Trapvonk</span>
+              </div>
+              <div className="peek-body">
+                <p className="peek-verdict disp">Kan, met aandachtspunten</p>
+                <dl className="peek-keys">
+                  <div>
+                    <dt>Onderscheidend</dt>
+                    <dd>Sterk</dd>
+                  </div>
+                  <div>
+                    <dt>Varianten</dt>
+                    <dd>12</dd>
+                  </div>
+                  <div>
+                    <dt>Merken beoordeeld</dt>
+                    <dd>6</dd>
+                  </div>
+                  <div>
+                    <dt>Verhoogd risico</dt>
+                    <dd>1</dd>
+                  </div>
+                </dl>
+                <div className="peek-hit">
+                  <p>
+                    <b>TRAPVONCK</b> <span className="peek-risk">Risico middel</span>
+                  </p>
+                  {(
+                    [
+                      ["Beeld", 90],
+                      ["Klank", 100],
+                      ["Betekenis", 80],
+                      ["Soortgelijke producten", 5],
+                    ] as const
+                  ).map(([label, v]) => (
+                    <div className="peek-meter" key={label}>
+                      <span>{label}</span>
+                      <i style={{ "--v": v } as CSSProperties} />
+                      <b>{v}</b>
+                    </div>
+                  ))}
+                  <p className="peek-why">Klinkt hetzelfde, maar is ingeschreven voor danslessen. Dat is iets heel anders dan fietsen.</p>
+                </div>
+              </div>
+            </Link>
+          </div>
+        </section>
+
+        {/* 6. Prijs: vergelijking links, kaart met de optelsom rechts */}
         <section className="s g12" id="prijs">
           <div className="col a">
             <p className="label" data-rv>
@@ -327,8 +491,8 @@ export default function Landing() {
             </div>
             <p className="note" data-rv>
               Benelux-merk in één klasse, inclusief BOIP-tarief, exclusief btw. Merkenbureaus: vanafprijzen op de websites van drie Nederlandse
-              bureaus, gepeild op {PEILDATUM}. Zelf indienen bij BOIP zonder check kost {euro(BOIP_TARIEVEN.depotMetEersteKlasse)}. Goedkoopste: onze
-              eigen prijs is {euro(ONZE_PRIJS)} voor check en depotdossier; het BOIP-tarief betaal je rechtstreeks aan BOIP.
+              bureaus, gepeild op {PEILDATUM}. Goedkoopste: onze eigen prijs is {euro(ONZE_PRIJS)} voor check, rapport en depotdossier; het
+              BOIP-tarief betaal je rechtstreeks aan BOIP.
             </p>
           </div>
           <div className="col h">
@@ -343,7 +507,7 @@ export default function Landing() {
                   <span>{euro(PRIJZEN.check)}</span>
                 </li>
                 <li className="sum">
-                  <span>Depotdossier, rapport inbegrepen</span>
+                  <span>Rapport en depotdossier</span>
                   <span>{euro(PRIJZEN.depot)}</span>
                 </li>
                 <li className="sum">
@@ -364,7 +528,51 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* 5. Het hele proces, met bij elke stap wat het kost */}
+        {/* 7. Eerlijke vergelijking: wij, een bureau en zelf doen */}
+        <section className="s" id="vergelijk">
+          <div className="head-row">
+            <div>
+              <p className="label" data-rv>
+                Vergelijk
+              </p>
+              <h2 className="disp" data-rv>
+                Meer dan zelf doen. Veel minder dan een bureau.
+              </h2>
+            </div>
+          </div>
+          <div className="vs-scroll" data-rv>
+            <table className="vs">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <span className="sr">Onderdeel</span>
+                  </th>
+                  <th scope="col" className="us">
+                    {PRODUCT.naam}
+                  </th>
+                  <th scope="col">Merkenbureau</th>
+                  <th scope="col">Zelf bij BOIP</th>
+                </tr>
+              </thead>
+              <tbody>
+                {VS.map((row) => (
+                  <tr key={row.label}>
+                    <th scope="row">{row.label}</th>
+                    <td className="us">{row.us}</td>
+                    <td>{row.bureau}</td>
+                    <td>{row.zelf}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="note flow-note" data-rv>
+            Prijzen exclusief btw, inclusief BOIP-tarief. Merkenbureaus: vanafprijzen van drie Nederlandse bureaus, gepeild op {PEILDATUM}. Wat een
+            bureau precies doet, verschilt per bureau.
+          </p>
+        </section>
+
+        {/* 8. Het hele proces, met bij elke stap wat het kost */}
         <section className="s" id="proces">
           <div className="head-row">
             <div>
@@ -393,10 +601,32 @@ export default function Landing() {
           </p>
         </section>
 
+        {/* 9. Veelgestelde vragen */}
+        <section className="s g12" id="vragen">
+          <div className="col a faq-head">
+            <p className="label" data-rv>
+              Vragen
+            </p>
+            <h2 className="disp" data-rv>
+              Wat mensen willen weten voordat ze beginnen.
+            </h2>
+          </div>
+          <div className="col h">
+            <div className="faq" data-rv>
+              {FAQ.map((f) => (
+                <details key={f.q}>
+                  <summary>{f.q}</summary>
+                  <p>{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* 13. Afsluiter */}
         <section className="s closer" id="start">
           <h2 className="disp" data-rv>
-            Eerst checken. Dan vastleggen.
+            Leg je naam vast voordat een ander het doet.
           </h2>
           <div className="hero-cta" data-rv>
             {cta("Bekijk een voorbeeldrapport")}
